@@ -1,7 +1,7 @@
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ThreadLocalExample implements Runnable {
+public class ThreadLocalExample {
 
     /**
      * We need to initialize the ThreadLocal value, if not will run into NullPointer Exceptions
@@ -31,6 +31,9 @@ public class ThreadLocalExample implements Runnable {
             e.printStackTrace();
         }
     }
+    public void printdifferent(){
+        System.out.println("Different :"+ Thread.currentThread().getName());
+    }
 
 
     public static void main (String[] args) {
@@ -43,9 +46,9 @@ public class ThreadLocalExample implements Runnable {
          */
         ExecutorService service = Executors.newFixedThreadPool(2);
 
-        service.submit(example);
-        service.submit(example);
-        service.submit(example);
+        service.submit(  example::run);
+        service.submit( example::printdifferent );
+        service.submit(example::run);
 
         service.shutdown();
 
